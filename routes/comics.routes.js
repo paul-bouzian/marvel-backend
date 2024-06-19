@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
-router.get("/characters", async (req, res) => {
-  const { name, skip } = req.body;
+router.get("/comics", async (req, res) => {
+  const { title, skip } = req.body;
 
   try {
-    const requestUrl = `${process.env.MARVEL_API_URL}/characters?apiKey=${
+    const requestUrl = `${process.env.MARVEL_API_URL}/comics?apiKey=${
       process.env.MARVEL_API_KEY
-    }${name ? `&name=${name}` : ""}${skip ? `&skip=${skip}` : ""}`;
+    }${title ? `&title=${title}` : ""}${skip ? `&skip=${skip}` : ""}`;
 
     const response = await axios.get(requestUrl);
 
