@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require("axios");
 
 router.get("/comics", async (req, res) => {
-  const { title, skip } = req.body;
+  const { title, skip } = req.query;
 
   try {
     const requestUrl = `${process.env.MARVEL_API_URL}/comics?apiKey=${
@@ -23,7 +23,7 @@ router.get("/comics", async (req, res) => {
 });
 
 router.get("/comic/:id", async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
 
   try {
     const requestUrl = `${process.env.MARVEL_API_URL}/comic/${id}?apiKey=${process.env.MARVEL_API_KEY}`;
@@ -41,7 +41,7 @@ router.get("/comic/:id", async (req, res) => {
 });
 
 router.get("/comics/:characterId", async (req, res) => {
-  const { characterId } = req.params;
+  const { characterId } = req.query;
 
   try {
     const requestUrl = `${process.env.MARVEL_API_URL}/comics/${characterId}?apiKey=${process.env.MARVEL_API_KEY}`;

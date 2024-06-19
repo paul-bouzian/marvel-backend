@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require("axios");
 
 router.get("/characters", async (req, res) => {
-  const { name, skip } = req.body;
+  const { name, skip } = req.query;
 
   try {
     const requestUrl = `${process.env.MARVEL_API_URL}/characters?apiKey=${
@@ -23,7 +23,7 @@ router.get("/characters", async (req, res) => {
 });
 
 router.get("/character/:id", async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
 
   try {
     const requestUrl = `${process.env.MARVEL_API_URL}/character/${id}?apiKey=${process.env.MARVEL_API_KEY}`;
