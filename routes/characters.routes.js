@@ -23,7 +23,7 @@ router.get("/characters", async (req, res) => {
 });
 
 router.get("/character/:id", async (req, res) => {
-  const { id } = req.query;
+  const { id } = req.params;
 
   try {
     const requestUrl = `${process.env.MARVEL_API_URL}/character/${id}?apiKey=${process.env.MARVEL_API_KEY}`;

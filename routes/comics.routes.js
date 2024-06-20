@@ -23,7 +23,7 @@ router.get("/comics", async (req, res) => {
 });
 
 router.get("/comic/:id", async (req, res) => {
-  const { id } = req.query;
+  const { id } = req.params;
 
   try {
     const requestUrl = `${process.env.MARVEL_API_URL}/comic/${id}?apiKey=${process.env.MARVEL_API_KEY}`;
@@ -41,7 +41,7 @@ router.get("/comic/:id", async (req, res) => {
 });
 
 router.get("/comics/:characterId", async (req, res) => {
-  const { characterId } = req.query;
+  const { characterId } = req.params;
 
   try {
     const requestUrl = `${process.env.MARVEL_API_URL}/comics/${characterId}?apiKey=${process.env.MARVEL_API_KEY}`;
