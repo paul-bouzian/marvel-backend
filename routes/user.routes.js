@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const fileUpload = require("express-fileupload");
+const isAuthenticated = require("../middlewares/isAuthenticated");
 
 const uuidv4 = require("uuid").v4;
 
