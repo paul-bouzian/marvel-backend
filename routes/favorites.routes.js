@@ -2,14 +2,40 @@ const express = require("express");
 const router = express.Router();
 const isAuthenticated = require("../middlewares/isAuthenticated");
 
-router.get("/favorites/comics", isAuthenticated, (req, res) => {
+router.get("/favorites/comics", isAuthenticated, async (req, res) => {
   const { comics } = req.user.favorites;
-  res.status(200).json(comics);
+  const axios = require("axios");
+
+  try {
+    const favorites = [];
+    for (let id of comics) {
+      const response = await axios.get(
+        `${process.env.MARVEL_API_URL}/comic/${id}?apiKey=${process.env.MARVEL_API_KEY}`
+      );
+      favorites.push(response.data);
+    }
+    res.status(200).json(favorites);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur interne du serveur" });
+  }
 });
 
-router.get("/favorites/characters", isAuthenticated, (req, res) => {
+router.get("/favorites/characters", isAuthenticated, async (req, res) => {
   const { characters } = req.user.favorites;
-  res.status(200).json(characters);
+  const axios = require("axios");
+
+  try {
+    const favorites = [];
+    for (let id of characters) {
+      const response = await axios.get(
+        `${process.env.MARVEL_API_URL}/character/${id}?apiKey=${process.env.MARVEL_API_KEY}`
+      );
+      favorites.push(response.data);
+    }
+    res.status(200).json(favorites);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur interne du serveur" });
+  }
 });
 
 router.post("/favorites/comics", isAuthenticated, async (req, res) => {
