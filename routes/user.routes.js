@@ -4,13 +4,14 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const fileUpload = require("express-fileupload");
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const cloudinary = require("cloudinary").v2;
 
 const uuidv4 = require("uuid").v4;
 
 router.post("/user/signup", fileUpload(), async (req, res) => {
   try {
     const { email, password, username } = req.body;
-    const avatar = req.files ? req.files.avatar : null;
+    let avatar = null;
     if (!email || !password || !username) {
       return res.status(400).json({
         message: "Email, mot de passe et nom d'utilisateur sont requis",
@@ -22,6 +23,19 @@ router.post("/user/signup", fileUpload(), async (req, res) => {
     }
     const hash = await bcrypt.hash(password, 10);
     const token = uuidv4();
+
+    // Si un fichier avatar est présent dans la requête
+    if (req.files && req.files.avatar) {
+      const file = req.files.avatar;
+      const imageBase64 = `data:${file.mimetype};base64,${file.data.toString(
+        "base64"
+      )}`;
+      const result = await cloudinary.uploader.upload(imageBase64, {
+        folder: `${email}`,
+      });
+      avatar = result.secure_url;
+    }
+
     const newUser = new User({
       email,
       password: hash,
@@ -34,6 +48,7 @@ router.post("/user/signup", fileUpload(), async (req, res) => {
     await newUser.save();
     res.status(200).json({ message: "Utilisateur créé avec succès", token });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Erreur interne du serveur" });
   }
 });

@@ -3,8 +3,15 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2;
 
 mongoose.connect(process.env.MONGODB_URI);
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const charactersRoutes = require("./routes/characters.routes");
 const comicsRoutes = require("./routes/comics.routes");
