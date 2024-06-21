@@ -14,7 +14,7 @@ const favoritesRoutes = require("./routes/favorites.routes");
 app.use(cors());
 app.use(express.json());
 
-app.use(userRoutes);
+app.use("/user", userRoutes);
 app.use(favoritesRoutes);
 app.use(charactersRoutes);
 app.use(comicsRoutes);
