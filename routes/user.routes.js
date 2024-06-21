@@ -6,7 +6,7 @@ const fileUpload = require("express-fileupload");
 
 const uuidv4 = require("uuid").v4;
 
-router.post("/signup", fileUpload(), async (req, res) => {
+router.post("user/signup", fileUpload(), async (req, res) => {
   try {
     const { email, password, username } = req.body;
     const avatar = req.files ? req.files.avatar : null;
@@ -37,7 +37,7 @@ router.post("/signup", fileUpload(), async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/user/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -61,17 +61,10 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/:token", async (req, res) => {
-  try {
-    const user = await User.findOne({ token: req.params.token }).select(
-      "-password -token"
-    );
-    if (!user) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur interne du serveur" });
-  }
+router.get("/user", isAuthenticated, async (req, res) => {
+  const userWithoutTokenAndPassword = req.user.toObject();
+  delete userWithoutTokenAndPassword.password;
+  delete userWithoutTokenAndPassword.token;
+  res.status(200).json(userWithoutTokenAndPassword);
 });
 module.exports = router;
