@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const User = require("../models/User");
+const axios = require("axios");
 
-router.get("/favorites/comics", isAuthenticated, async (req, res) => {
-  const { comics } = req.user.favorites;
-  const axios = require("axios");
+router.get("/favorites/comics/:id", async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  const comics = user.favorites.comics;
 
   try {
     const favorites = [];
@@ -20,9 +23,10 @@ router.get("/favorites/comics", isAuthenticated, async (req, res) => {
   }
 });
 
-router.get("/favorites/characters", isAuthenticated, async (req, res) => {
-  const { characters } = req.user.favorites;
-  const axios = require("axios");
+router.get("/favorites/characters/:id", async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  const characters = user.favorites.characters;
 
   try {
     const favorites = [];
