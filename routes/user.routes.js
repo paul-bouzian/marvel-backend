@@ -7,7 +7,7 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 
 const uuidv4 = require("uuid").v4;
 
-router.post("user/signup", fileUpload(), async (req, res) => {
+router.post("/user/signup", fileUpload(), async (req, res) => {
   try {
     const { email, password, username } = req.body;
     const avatar = req.files ? req.files.avatar : null;
