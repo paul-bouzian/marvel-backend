@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const isAuthenticated = require("../middlewares/isAuthenticated");
-const User = require("../models/User");
 
 router.get("/favorites/movies", isAuthenticated, (req, res) => {
   const { movies } = req.user.favorites;

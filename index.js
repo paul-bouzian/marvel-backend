@@ -4,12 +4,12 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+mongoose.connect(process.env.MONGODB_URI);
+
 const charactersRoutes = require("./routes/characters.routes");
 const comicsRoutes = require("./routes/comics.routes");
 const userRoutes = require("./routes/user.routes");
 const favoritesRoutes = require("./routes/favorites.routes");
-
-mongoose.connect(process.env.MONGODB_URI);
 
 app.use(cors());
 app.use(express.json());
