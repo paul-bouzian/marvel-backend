@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   favorites: {
-    movies: {
+    comics: {
       type: [String],
       default: [],
     },

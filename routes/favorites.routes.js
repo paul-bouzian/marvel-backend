@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const isAuthenticated = require("../middlewares/isAuthenticated");
 
-router.get("/favorites/movies", isAuthenticated, (req, res) => {
-  const { movies } = req.user.favorites;
-  res.status(200).json(movies);
+router.get("/favorites/comics", isAuthenticated, (req, res) => {
+  const { comics } = req.user.favorites;
+  res.status(200).json(comics);
 });
 
 router.get("/favorites/characters", isAuthenticated, (req, res) => {
@@ -12,19 +12,19 @@ router.get("/favorites/characters", isAuthenticated, (req, res) => {
   res.status(200).json(characters);
 });
 
-router.post("/favorites/movies", isAuthenticated, async (req, res) => {
+router.post("/favorites/comics", isAuthenticated, async (req, res) => {
   try {
     const { id } = req.body;
     const user = req.user;
     if (!id) {
-      return res.status(400).json({ message: "L'id du film est requis" });
+      return res.status(400).json({ message: "L'id du comic est requis" });
     }
-    if (!user.favorites.movies.includes(id)) {
-      user.favorites.movies.push(id);
+    if (!user.favorites.comics.includes(id)) {
+      user.favorites.comics.push(id);
       await user.save();
-      res.status(200).json(user.favorites.movies);
+      res.status(200).json(user.favorites.comics);
     } else {
-      res.status(400).json({ message: "Le film est déjà dans les favoris" });
+      res.status(400).json({ message: "Le comic est déjà dans les favoris" });
     }
   } catch (error) {
     res.status(500).json({ message: "Erreur interne du serveur" });
