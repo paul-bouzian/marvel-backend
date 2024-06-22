@@ -82,4 +82,46 @@ router.post("/favorites/characters", isAuthenticated, async (req, res) => {
   }
 });
 
+router.delete("/favorites/comics", isAuthenticated, async (req, res) => {
+  try {
+    const { id } = req.body;
+    const user = req.user;
+    if (!id) {
+      return res.status(400).json({ message: "L'id du comic est requis" });
+    }
+    const index = user.favorites.comics.indexOf(id);
+    if (index !== -1) {
+      user.favorites.comics.splice(index, 1);
+      await user.save();
+      res.status(200).json(user.favorites.comics);
+    } else {
+      res.status(400).json({ message: "Le comic n'est pas dans les favoris" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Erreur interne du serveur" });
+  }
+});
+
+router.delete("/favorites/characters", isAuthenticated, async (req, res) => {
+  try {
+    const { id } = req.body;
+    const user = req.user;
+    if (!id) {
+      return res.status(400).json({ message: "L'id du personnage est requis" });
+    }
+    const index = user.favorites.characters.indexOf(id);
+    if (index !== -1) {
+      user.favorites.characters.splice(index, 1);
+      await user.save();
+      res.status(200).json(user.favorites.characters);
+    } else {
+      res
+        .status(400)
+        .json({ message: "Le personnage n'est pas dans les favoris" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Erreur interne du serveur" });
+  }
+});
+
 module.exports = router;
