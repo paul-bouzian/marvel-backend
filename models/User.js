@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+    default:
+      "https://res.cloudinary.com/djj10svfl/image/upload/v1719165553/test%40gmail.com/vujrxrgrdicfqwdtp126.jpg",
   },
   email: {
     type: String,

@@ -42,7 +42,7 @@ router.post("/user/signup", fileUpload(), async (req, res) => {
       username,
       avatar:
         avatar ||
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+        "https://res.cloudinary.com/djj10svfl/image/upload/v1719165553/test%40gmail.com/vujrxrgrdicfqwdtp126.jpg",
       token,
     });
     await newUser.save();
